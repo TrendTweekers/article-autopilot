@@ -11,8 +11,11 @@ You review against three layers of rules:
 1. **`site-config.yaml`** — the project's brand voice, audience, terminology,
    pricing source-of-truth, phasing dates source-of-truth.
 2. **The active language profile** under
-   `examples/language-profiles/<profile>.md` (referenced from
-   `site-config.yaml` via `language_profile`). Defaults to `english`.
+   `.claude/skills/article/language-profiles/<profile>.md` (referenced
+   from `site-config.yaml` via `language_profile`). Defaults to
+   `english`. Note: `examples/language-profiles/` is reference-only for
+   contributors. The runtime reads the installed copies under
+   `.claude/skills/article/language-profiles/`.
 3. **Surface-specific rules** within the profile — articles, landing
    pages, app UI, legal pages, emails, and social posts each have their
    own ruleset.

@@ -57,7 +57,10 @@ When invoking the agent, pass:
 
 1. The file paths to review (or a diff range).
 2. The active language profile path
-   (`examples/language-profiles/<profile>.md`).
+   (`.claude/skills/article/language-profiles/<profile>.md`). Note:
+   `examples/language-profiles/` is reference-only for contributors.
+   The runtime reads the installed copies under
+   `.claude/skills/article/language-profiles/`.
 3. The relevant `site-config.yaml` sections (`terminology`, `voice`,
    `pricing`, `phasing_dates`, `disclaimer_template`).
 
@@ -78,7 +81,8 @@ The agent infers the surface from the file path:
 | `*linkedin*`, `*social*`, `*post-*.md` | Social post |
 
 Each surface has its own ruleset in the active language profile (see
-`examples/language-profiles/english.md` for the structure).
+`.claude/skills/article/language-profiles/english.md` for the
+structure).
 
 ## Output
 

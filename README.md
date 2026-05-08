@@ -136,8 +136,10 @@ src/content/blog/shadcn-vs-radix-ui.md
 
 **Expected structure:**
 
-- `H1` — full title
-- ~80-word intro hook (no "in today's fast-paced…")
+- Frontmatter `title` — your CMS renders this as the H1
+- No duplicate Markdown `# ...` heading at the top of the body
+- First body section starts at H2
+- ~80-word intro hook (no "in today's fast-paced…") before the first H2
 - 4–7 `H2` sections covering the SERP gap (intent classified before drafting)
 - `H3` sub-points where useful
 - One natural product mention mid-article (from `site.positioning`)
