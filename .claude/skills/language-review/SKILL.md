@@ -10,7 +10,7 @@ agent in `.claude/agents/copy-reviewer.md` with the right context loaded.
 
 ## When to invoke
 
-The bundled `post-edit-nudge.js` hook fires this skill automatically
+The bundled `post-edit-nudge.mjs` hook fires this skill automatically
 after edits to known user-facing files. The hook only nudges — the main
 session decides whether to actually run a review based on whether the
 edit touched copy or was pure logic.

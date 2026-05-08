@@ -16,7 +16,7 @@
 //     "PostToolUse": [
 //       {
 //         "matcher": "Edit|Write",
-//         "hooks": [{ "type": "command", "command": "node .claude/hooks/post-edit-nudge.js" }]
+//         "hooks": [{ "type": "command", "command": "node .claude/hooks/post-edit-nudge.mjs" }]
 //       }
 //     ]
 //   }

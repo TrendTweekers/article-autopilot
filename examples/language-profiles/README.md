@@ -38,9 +38,17 @@ language_profile: "english"
 ```
 
 The skill loads `language_profile + ".md"` from
-`.claude/skills/article/language-profiles/` (in your installed project)
-or from this `examples/language-profiles/` directory (when developing
-in this repo).
+`.claude/skills/article/language-profiles/` at runtime.
+
+The copies in this `examples/language-profiles/` directory are
+**reference documentation** — they show contributors what a profile
+looks like and let GitHub readers preview them without digging into
+`.claude/`. The runtime never reads from `examples/`.
+
+**To add a new profile:** place the file in
+`.claude/skills/article/language-profiles/<language>.md` AND PR a copy
+into `examples/language-profiles/<language>.md` so contributors and
+GitHub browsers can see it.
 
 ## Adding a new language
 
@@ -61,9 +69,9 @@ in this repo).
    - **Surface table.** The "em-dash banned in cold emails because
      it's an AI tell" rule is language-specific — verify in your
      language whether casual readers actually parse em-dashes as AI.
-3. Save it as `<language>.md` in this directory (for development) or
-   in `.claude/skills/article/language-profiles/` (for installed
-   projects).
+3. Save it as `<language>.md` in **both**
+   `.claude/skills/article/language-profiles/` (the runtime path) and
+   `examples/language-profiles/` (the reference copy for contributors).
 4. Reference it from `site-config.yaml`.
 
 ## Contributing a profile back

@@ -22,7 +22,7 @@ Research → draft → E-E-A-T audit → language lint → markdown file you'd a
 
 ## Why article-autopilot?
 
-Most AI writing tools generate slop. You know the look — generic intros that *"delve into today's fast-paced digital landscape,"* lifeless transitions, vocabulary that screams **I was written by ChatGPT**. Editors smell it in 8 seconds. Google smells it in 8 days.
+Most AI writing tools generate slop. You know the look — generic intros that *"delve into today's fast-paced digital landscape,"* lifeless transitions, vocabulary that screams **I was written by ChatGPT**. Editors notice the generic patterns quickly. Search performance usually suffers later, when the page adds nothing beyond what already ranks.
 
 That happens because generic prompts produce generic priors. The drafter never read the SERP, never knew your audience, never had a banned-vocabulary list, never saw your brand's actual voice.
 
@@ -72,7 +72,11 @@ git clone https://github.com/TrendTweekers/article-autopilot.git
 # 2. Copy the .claude/ skills into your project
 cp -r article-autopilot/.claude/* /path/to/your-project/.claude/
 
-# 3. Copy the example config to your project root
+# 3. Register the PostToolUse hook (so the language-review nudge fires)
+cp article-autopilot/.claude/settings.example.json /path/to/your-project/.claude/settings.local.json
+# (or merge the "hooks" block into your existing settings.local.json)
+
+# 4. Copy the example config to your project root
 cp article-autopilot/examples/site-config.example.yaml /path/to/your-project/site-config.yaml
 ```
 
@@ -87,6 +91,60 @@ Then, in Claude Code:
 The skill researches the SERP, drafts a 1,500–2,500-word article in your voice, audits it, lints it, and writes `<output.path>/<slug>.md`. **No auto-publish.** You review and ship.
 
 > First time? Run `/plugin install anthropic-skills` once — bundles the upstream `content-brief`, `write-content`, and `eeat-audit` skills the pipeline composes.
+
+---
+
+## 🛣️ Example run
+
+Concrete walkthrough so you know what you're getting before you wire it into a project.
+
+**Input keyword:**
+
+```
+/article "shadcn vs radix ui"
+```
+
+**Minimal `site-config.yaml`:**
+
+```yaml
+site:
+  name: "Acme UI"
+  positioning: "Component library tooling for product teams"
+
+audience:
+  primary: "Frontend engineers and design-system leads at 50–500-person SaaS companies"
+  register: "professional"
+
+voice:
+  tone: ["specific", "low-pretension", "opinionated"]
+  avoid: ["consultant-speak", "list-stuffing", "hedging"]
+
+output:
+  path: "src/content/blog"
+  frontmatter_format: "astro"
+```
+
+**Resulting file:**
+
+```
+src/content/blog/shadcn-vs-radix-ui.md
+```
+
+**Excerpt of what the output looks like (sample, not a real published article):**
+
+> If you're picking between shadcn and Radix, you've probably already noticed the shape of the disagreement online — half the answers compare them as if they're the same kind of thing, the other half tell you they're not comparable at all. Both are partially right. Radix gives you headless behavior; shadcn gives you opinionated, copy-pasted components built on top of Radix. The actual decision is whether you want to own the styling layer or inherit it.
+
+**Expected structure:**
+
+- `H1` — full title
+- ~80-word intro hook (no "in today's fast-paced…")
+- 4–7 `H2` sections covering the SERP gap (intent classified before drafting)
+- `H3` sub-points where useful
+- One natural product mention mid-article (from `site.positioning`)
+- Conclusion with a concrete next step
+- Frontmatter matching `output.frontmatter_format` (Astro / Next / Jekyll / plain)
+
+For the full pipeline shape (`brief → write → audit → lint`) and tuning guide, see [`docs/how-it-works.md`](docs/how-it-works.md).
 
 ---
 
@@ -155,6 +213,16 @@ Full pipeline rationale, failure modes, and tuning guide → [`docs/how-it-works
 - **v2** — Multi-article batch mode for content sprints
 
 Have ideas? [Open an issue.](https://github.com/TrendTweekers/article-autopilot/issues)
+
+---
+
+## 🐛 Troubleshooting
+
+- **Hook not firing on edits.** Did you copy `settings.example.json` to `.claude/settings.local.json` (Quick Start step 3)? Without it, the `PostToolUse` hook is shipped but unregistered.
+- **"Profile not found" / falls back silently to English.** Confirm the file is at `.claude/skills/article/language-profiles/<profile>.md` in your installed project. The copies in `examples/language-profiles/` are reference docs; the runtime reads from the skill directory.
+- **`Cannot use import statement outside a module`.** The hook ships as `post-edit-nudge.mjs`. If you renamed it to `.js`, either rename it back or add `"type": "module"` to a root `package.json`.
+- **Output goes to the wrong directory.** Check `output.path` in your `site-config.yaml`. The slug is appended automatically; don't include trailing slashes or filenames.
+- **`/article` command isn't available.** Run `/plugin install anthropic-skills` once — the pipeline composes upstream skills (`content-brief`, `write-content`, `eeat-audit`). Without them the orchestrator has nothing to call.
 
 ---
 
