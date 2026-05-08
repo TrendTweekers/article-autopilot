@@ -14,7 +14,9 @@ Research → draft → E-E-A-T audit → language lint → markdown file you'd a
 
 </div>
 
-<!-- TODO: add demo GIF here -->
+<p align="center">
+  <img src="assets/demo.svg" alt="article-autopilot demo: terminal session showing /article command running through SERP research, drafting, E-E-A-T audit, and lint stages" width="800">
+</p>
 
 ---
 

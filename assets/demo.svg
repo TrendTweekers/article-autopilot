@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 500" preserveAspectRatio="xMidYMid meet" font-family="'SF Mono','Menlo','Monaco','Consolas','Courier New',monospace" font-size="13">
+  <!-- Terminal frame -->
+  <rect width="820" height="500" rx="10" fill="#0d1117"/>
+  <rect x="0.5" y="0.5" width="819" height="499" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+
+  <!-- Title bar -->
+  <path d="M0 10 Q0 0 10 0 L810 0 Q820 0 820 10 L820 34 L0 34 Z" fill="#161b22"/>
+  <line x1="0" y1="34" x2="820" y2="34" stroke="#30363d" stroke-width="1"/>
+
+  <!-- Window dots -->
+  <circle cx="22" cy="17" r="6" fill="#ff5f56"/>
+  <circle cx="42" cy="17" r="6" fill="#ffbd2e"/>
+  <circle cx="62" cy="17" r="6" fill="#27c93f"/>
+
+  <!-- Title -->
+  <text x="410" y="22" text-anchor="middle" font-size="12" fill="#8b949e">article-autopilot — bash</text>
+
+  <defs>
+    <clipPath id="typeClip">
+      <rect x="0" y="44" width="0" height="24">
+        <animate attributeName="width" dur="12s" repeatCount="indefinite"
+          keyTimes="0;0.0333;0.1167;1"
+          values="0;0;260;260"
+          calcMode="linear"/>
+      </rect>
+    </clipPath>
+  </defs>
+
+  <!-- Main fading group -->
+  <g>
+    <!-- Command line, revealed via clip animation -->
+    <text x="20" y="60" clip-path="url(#typeClip)">
+      <tspan fill="#58a6ff">$</tspan><tspan fill="#c9d1d9"> /article ksef-faktury-2026</tspan>
+    </text>
+
+    <!-- Cursor: tracks typing edge, then blinks idle -->
+    <rect x="20" y="49" width="8" height="14" fill="#c9d1d9">
+      <animate attributeName="x" dur="12s" repeatCount="indefinite"
+        keyTimes="0;0.0333;0.1167;1"
+        values="20;20;280;280"
+        calcMode="linear"/>
+      <animate attributeName="opacity" dur="1.06s" repeatCount="indefinite"
+        keyTimes="0;0.5;0.5001;1"
+        values="1;1;0;0"
+        calcMode="linear"/>
+    </rect>
+
+    <!-- 🔍 SERP research -->
+    <text x="20" y="92" opacity="0" fill="#c9d1d9">
+      <tspan>🔍 </tspan><tspan fill="#58a6ff">Researching SERP for &quot;ksef-faktury-2026&quot;...</tspan>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite"
+        keyTimes="0;0.1417;1" values="0;1;1" calcMode="discrete"/>
+    </text>
+    <text x="20" y="111" opacity="0" fill="#c9d1d9">
+      <tspan>   </tspan><tspan fill="#3fb950">✓</tspan><tspan> Top 10 results analyzed</tspan>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite"
+        keyTimes="0;0.1625;1" values="0;1;1" calcMode="discrete"/>
+    </text>
+    <text x="20" y="130" opacity="0" fill="#c9d1d9">
+      <tspan>   </tspan><tspan fill="#3fb950">✓</tspan><tspan> Intent classified: informational</tspan>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite"
+        keyTimes="0;0.1833;1" values="0;1;1" calcMode="discrete"/>
+    </text>
+    <text x="20" y="149" opacity="0" fill="#c9d1d9">
+      <tspan>   </tspan><tspan fill="#3fb950">✓</tspan><tspan> Content gap mapped (3 entities missing in top results)</tspan>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite"
+        keyTimes="0;0.2042;1" values="0;1;1" calcMode="discrete"/>
+    </text>
+
+    <!-- ✍️ Drafting -->
+    <text x="20" y="178" opacity="0" fill="#c9d1d9">
+      <tspan>✍️  </tspan><tspan fill="#58a6ff">Drafting article in your brand voice...</tspan>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite"
+        keyTimes="0;0.2375;1" values="0;1;1" calcMode="discrete"/>
+    </text>
+    <text x="20" y="197" opacity="0" fill="#c9d1d9">
+      <tspan>   </tspan><tspan fill="#3fb950">✓</tspan><tspan> 1,847 words generated</tspan>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite"
+        keyTimes="0;0.2583;1" values="0;1;1" calcMode="discrete"/>
+    </text>
+    <text x="20" y="216" opacity="0" fill="#c9d1d9">
+      <tspan>   </tspan><tspan fill="#3fb950">✓</tspan><tspan> Anti-AI-slop ruleset applied (banned: 0/142 phrases)</tspan>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite"
+        keyTimes="0;0.2792;1" values="0;1;1" calcMode="discrete"/>
+    </text>
+    <text x="20" y="235" opacity="0" fill="#c9d1d9">
+      <tspan>   </tspan><tspan fill="#3fb950">✓</tspan><tspan> Citations: 4 authoritative sources</tspan>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite"
+        keyTimes="0;0.3000;1" values="0;1;1" calcMode="discrete"/>
+    </text>
+
+    <!-- 🎯 E-E-A-T audit -->
+    <text x="20" y="264" opacity="0" fill="#c9d1d9">
+      <tspan>🎯 </tspan><tspan fill="#58a6ff">Running E-E-A-T audit...</tspan>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite"
+        keyTimes="0;0.3333;1" values="0;1;1" calcMode="discrete"/>
+    </text>
+    <text x="20" y="283" opacity="0" fill="#c9d1d9">
+      <tspan>   </tspan><tspan fill="#3fb950">✓</tspan><tspan> Experience signals: 4/5</tspan>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite"
+        keyTimes="0;0.3542;1" values="0;1;1" calcMode="discrete"/>
+    </text>
+    <text x="20" y="302" opacity="0" fill="#c9d1d9">
+      <tspan>   </tspan><tspan fill="#3fb950">✓</tspan><tspan> Expertise: 5/5</tspan>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite"
+        keyTimes="0;0.3750;1" values="0;1;1" calcMode="discrete"/>
+    </text>
+    <text x="20" y="321" opacity="0" fill="#c9d1d9">
+      <tspan>   </tspan><tspan fill="#3fb950">✓</tspan><tspan> Authoritativeness: 4/5</tspan>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite"
+        keyTimes="0;0.3958;1" values="0;1;1" calcMode="discrete"/>
+    </text>
+    <text x="20" y="340" opacity="0" fill="#c9d1d9">
+      <tspan>   </tspan><tspan fill="#3fb950">✓</tspan><tspan> Trustworthiness: 5/5</tspan>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite"
+        keyTimes="0;0.4167;1" values="0;1;1" calcMode="discrete"/>
+    </text>
+
+    <!-- 📝 Language lint -->
+    <text x="20" y="369" opacity="0" fill="#c9d1d9">
+      <tspan>📝 </tspan><tspan fill="#58a6ff">Language lint (en)...</tspan>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite"
+        keyTimes="0;0.4500;1" values="0;1;1" calcMode="discrete"/>
+    </text>
+    <text x="20" y="388" opacity="0" fill="#c9d1d9">
+      <tspan>   </tspan><tspan fill="#3fb950">✓</tspan><tspan> Voice rules: passed</tspan>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite"
+        keyTimes="0;0.4708;1" values="0;1;1" calcMode="discrete"/>
+    </text>
+    <text x="20" y="407" opacity="0" fill="#c9d1d9">
+      <tspan>   </tspan><tspan fill="#3fb950">✓</tspan><tspan> Reading level: appropriate</tspan>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite"
+        keyTimes="0;0.4917;1" values="0;1;1" calcMode="discrete"/>
+    </text>
+
+    <!-- ✅ Done -->
+    <text x="20" y="436" opacity="0">
+      <tspan fill="#c9d1d9">✅ </tspan><tspan fill="#56d364">Article ready: blog/ksef-faktury-2026.md (1,847 words)</tspan>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite"
+        keyTimes="0;0.5250;1" values="0;1;1" calcMode="discrete"/>
+    </text>
+
+    <!-- Global fade-out, then snap to invisible before next cycle -->
+    <animate attributeName="opacity" dur="12s" repeatCount="indefinite"
+      keyTimes="0;0.875;0.958;1" values="1;1;0;0" calcMode="linear"/>
+  </g>
+
+  <!-- Watermark -->
+  <text x="800" y="486" text-anchor="end" font-family="'SF Mono','Menlo','Monaco','Consolas','Courier New',monospace" font-size="10" fill="#484f58">github.com/TrendTweekers/article-autopilot</text>
+</svg>
