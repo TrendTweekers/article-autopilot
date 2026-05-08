@@ -1,103 +1,98 @@
-# article-autopilot
+<div align="center">
 
-A Claude Code skill bundle that turns one keyword into a publication-ready,
-brand-voiced, SERP-aware article — with built-in language linting and an
-E-E-A-T audit pass.
+# ✍️ article-autopilot
 
-> One command. Research → draft → audit → emit a markdown file you'd
-> actually publish.
+**SEO articles that don't read like AI wrote them. Built on Claude Code.**
 
-It's the production pipeline behind FakturaFlow's blog (a Polish B2B SaaS),
-extracted and generalized so any site in any language can use the same
-shape.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Claude Code](https://img.shields.io/badge/Claude%20Code-compatible-DA1B2D)](https://claude.com/claude-code)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](#-contributing)
+[![GitHub stars](https://img.shields.io/github/stars/TrendTweekers/article-autopilot?style=social)](https://github.com/TrendTweekers/article-autopilot)
 
----
+One keyword in. A publication-ready, brand-voiced, SERP-aware article out.
+Research → draft → E-E-A-T audit → language lint → markdown file you'd actually publish.
 
-## What it does
+</div>
 
-When you run `/article <keyword>`, the skill orchestrates four stages:
-
-1. **Research the SERP.** Calls the upstream `content-brief` skill —
-   classifies search intent, maps the top 10 results, builds an outline
-   and entity list.
-2. **Draft in your voice.** Calls `write-content` with your `site-config.yaml`
-   injected as constraints: brand voice, audience register, banned vocabulary,
-   product positioning, terminology rules, structural preferences. The full
-   anti-AI-slop ruleset (banned phrases, structural tells, the Horoscope
-   Test) is enforced.
-3. **Audit the draft.** Calls `eeat-audit` — checks for first-hand
-   experience signals, expertise depth, source citations, trust markers.
-   Applies fixes inline.
-4. **Lint the language.** Runs the bundled `language-review` agent against
-   your active language profile (English by default; Polish bundled;
-   contributable). Flags style drift, terminology drift, factual claims
-   that need verification, surface-specific tone (article vs LinkedIn
-   post vs cold email).
-
-Then it writes a markdown file with frontmatter to the path you configured.
-The operator reviews and commits. **No auto-publish.**
+<!-- TODO: add demo GIF here -->
 
 ---
 
-## What it is NOT
+## Why article-autopilot?
 
-- **Not a "press button, get traffic" button.** It writes drafts. You
-  still review, fact-check claims it flags, and sign your name.
-- **Not a replacement for subject-matter expertise.** It enforces voice
-  and structure. It does not invent first-hand experience. For
-  YMYL-adjacent topics (legal, medical, financial), pair it with the
-  upstream `expert-interview` skill before drafting.
-- **Not a keyword-tool replacement.** The pipeline researches the SERP
-  by reading it, not by querying Ahrefs. Bring your own keyword pool.
-- **Not free.** It calls Claude. Long articles run a few cents in tokens.
-  System-prompt caching is on (`cache_control: ephemeral`) which keeps
-  multi-article sessions cheap.
+Most AI writing tools generate slop. You know the look — generic intros that *"delve into today's fast-paced digital landscape,"* lifeless transitions, vocabulary that screams **I was written by ChatGPT**. Editors smell it in 8 seconds. Google smells it in 8 days.
+
+That happens because generic prompts produce generic priors. The drafter never read the SERP, never knew your audience, never had a banned-vocabulary list, never saw your brand's actual voice.
+
+**article-autopilot fixes the inputs.** It ships with a battle-tested anti-AI-slop ruleset, a single config file describing your real audience and voice, and a four-stage pipeline that **researches the SERP, drafts in your voice, audits for E-E-A-T signals, then lints the language** before emitting. The output is **SEO-optimized by construction** — search intent classified, top-10 SERP gap-mapped, must-cover entities extracted, E-E-A-T scored, citations flagged for verification.
+
+It's a drop-in for [Claude Code](https://claude.com/claude-code). No separate dashboard. No extra API keys. No subscription on top of a subscription.
 
 ---
 
-## Install
+## Before / After
 
-The skill is a directory of files. Copy `.claude/` into the root of any
-project where you want `/article` available:
+Same keyword. Same model. Different inputs.
+
+**❌ Generic AI writer:**
+
+> In today's fast-paced digital landscape, businesses are increasingly turning to innovative solutions to streamline their workflows and drive efficiency. One such solution is X, which leverages cutting-edge technology to deliver unparalleled value...
+
+**✅ article-autopilot, with a real `site-config.yaml`:**
+
+> If you've tried X and it didn't stick, the problem usually isn't the tool. It's the gap between where the tool ends and where your team's actual workflow starts. Here's what most teams miss in the first month — and the four checks that fix it before it becomes a retention problem.
+
+The difference isn't writing skill. It's that the second draft saw your audience description, knew what topics not to cover, and got linted against a "no consultant-speak" rule before emission.
+
+---
+
+## ✨ Features
+
+- 🔍 **SERP-aware research** — top-10 SERP scan, intent classification, gap analysis, entity extraction
+- ✍️ **Anti-AI-slop ruleset** — banned vocabulary, banned phrases, banned structural patterns, the Horoscope Test
+- 🌐 **Pluggable language profiles** — English default, Polish battle-tested, contribute your own
+- 🎯 **E-E-A-T audit baked in** — Experience, Expertise, Authoritativeness, Trustworthiness scoring per draft
+- ⚙️ **One config file** — brand voice, audience, terminology, pricing, output path, frontmatter format
+- 🚦 **Surface-conditional linting** — different rules for blog vs LinkedIn vs cold email (em-dashes read as an AI tell in cold email; in B2B blog they're fine)
+- 📝 **Frontmatter-aware output** — Astro / Next / Jekyll / plain
+- 🛡️ **YMYL hard gate** — flip `regulatory_topic: true` and the pipeline blocks unverifiable date / number / statute claims
+- 🔒 **Drop-in for Claude Code** — no API keys, no dashboard, your existing subscription
+- 💸 **Cheap to run** — system-prompt cached (`cache_control: ephemeral`), multi-article batches cost ~10% of uncached
+
+---
+
+## 🚀 Quick start (60 seconds)
 
 ```bash
+# 1. Clone the repo
 git clone https://github.com/TrendTweekers/article-autopilot.git
+
+# 2. Copy the .claude/ skills into your project
 cp -r article-autopilot/.claude/* /path/to/your-project/.claude/
+
+# 3. Copy the example config to your project root
+cp article-autopilot/examples/site-config.example.yaml /path/to/your-project/site-config.yaml
 ```
 
-Or vendor only the pieces you need — each file in `.claude/` is
-self-contained.
+Edit `site-config.yaml` and fill in the four fields that matter most — `site.positioning`, `audience.primary`, `voice.tone`, `voice.avoid`. The rest is optional.
 
-### Prerequisites
+Then, in Claude Code:
 
-- **Claude Code** 1.x (the CLI or one of the IDE extensions).
-- The upstream **`anthropic-skills`** plugin installed in Claude Code
-  for `content-brief`, `write-content`, `eeat-audit`. If you don't have
-  it:
+```
+/article "your keyword goes here"
+```
 
-  ```
-  /plugin install anthropic-skills
-  ```
+The skill researches the SERP, drafts a 1,500–2,500-word article in your voice, audits it, lints it, and writes `<output.path>/<slug>.md`. **No auto-publish.** You review and ship.
 
-  (Or the equivalent install path for your skill source. The plugin
-  bundles all the skills `/article` composes.)
-
-### One-time configuration
-
-1. Copy `examples/site-config.example.yaml` to your project root as
-   `site-config.yaml` and fill it in.
-2. Pick a language profile from `examples/language-profiles/` (or write
-   your own — see `examples/language-profiles/README.md`).
-3. Reload Claude Code so the skill is registered.
-
-That's it. Run `/article <keyword>` to draft an article.
+> First time? Run `/plugin install anthropic-skills` once — bundles the upstream `content-brief`, `write-content`, and `eeat-audit` skills the pipeline composes.
 
 ---
 
-## 60-second quickstart
+## ⚙️ Configuration
+
+`site-config.yaml` is the contract between your brand and the drafter. Spend 30 minutes on it honestly — **the output quality is downstream of how specific you make it.**
 
 ```yaml
-# site-config.yaml — minimal English example
 site:
   name: "Acme HR"
   url: "https://acmehr.example"
@@ -105,7 +100,7 @@ site:
 
 audience:
   primary: "VP Engineering and Head of People at fast-growing startups"
-  register: "professional, direct, lightly technical"
+  register: "professional"
 
 voice:
   pronouns: "we / you"
@@ -115,173 +110,75 @@ voice:
 terminology:
   preferred:
     - { use: "onboarding plan", instead_of: "onboarding journey" }
-  banned:
-    - "synergy"
-    - "leverage" # as a verb
+  banned: ["synergy", "leverage", "best-in-class"]
 
 language_profile: "english"
 
 output:
   path: "src/content/blog"
-  slug_style: "kebab-case"
-  frontmatter_format: "astro"  # or 'next', 'jekyll', 'plain'
+  frontmatter_format: "astro"   # or 'next', 'jekyll', 'plain'
 ```
 
-Then in Claude Code:
+**Optional blocks** (~15 more): `pricing` source-of-truth, `phasing_dates` for regulatory rollouts, `disclaimer_template`, `existing_content` cross-link awareness, `keyword_pool` for keyword-less invocations, and more. Every field is documented in [`examples/site-config.example.yaml`](examples/site-config.example.yaml). For a complete real-world example (Polish B2B SaaS with regulatory phasing and strict terminology), see [`examples/fakturaflow-config.yaml`](examples/fakturaflow-config.yaml).
+
+---
+
+## 🌍 Language profiles
+
+A language profile is a markdown ruleset describing punctuation conventions, plurals, smart quotes, and surface-conditional quirks (the rule *"no em-dashes in cold emails because they're an AI tell"* lives in the profile, not the global config).
+
+- **English** — default. Conservative punctuation, watches for AI-slop tells. PRs welcome to harden.
+- **Polish** — battle-tested, ported from FakturaFlow. Diacritics, 3-form plurals, smart-quote pairs (`„X"`), surface-conditional em-dash policy. This is what *"real"* looks like.
+
+Add a new language: copy `english.md`, fill in your rules, save as `<language>.md`, set `language_profile: "<language>"` in your config. Contribution template in [`examples/language-profiles/README.md`](examples/language-profiles/README.md).
+
+---
+
+## 🛠️ How it works
 
 ```
-/article "engineering onboarding checklist"
+keyword → content-brief → write-content → eeat-audit → language-review → output/<slug>.md
 ```
 
-The skill researches the SERP, drafts a 1,500–2,500-word article in your
-voice, audits it, lints it, and writes
-`src/content/blog/engineering-onboarding-checklist.md`.
+`/article` is the orchestrator. The actual drafting is done by upstream skills from the `anthropic-skills` plugin; the language lint runs against your active profile. The drafter's system prompt is marked `cache_control: ephemeral` so multi-article batches in one session cost ~10% of an uncached call.
 
-Open the file. Read it like a hostile editor. Ship when good.
+Full pipeline rationale, failure modes, and tuning guide → [`docs/how-it-works.md`](docs/how-it-works.md).
 
 ---
 
-## Configuration walkthrough
+## 📈 Roadmap
 
-`site-config.yaml` is the contract between your brand and the drafter.
-Every field constrains the output. **Spend 30 minutes filling it in
-honestly. The output quality is downstream of this file.**
+- **v1.1** — Hugo / Eleventy / Gatsby frontmatter formats
+- **v1.2** — Keyword-pool schema specification
+- **v2** — Multi-article batch mode for content sprints
 
-| Field | What it controls |
-|---|---|
-| `site.name` / `site.url` | Self-references in the article and CTA links. |
-| `site.positioning` | The one-sentence pitch the drafter weaves in (once, naturally — not a sales paragraph). |
-| `audience.primary` | Who the article speaks to. Drives reading level, examples, register. |
-| `audience.register` | Tone bracket: `casual` / `professional` / `formal` / `editorial third-person`. |
-| `voice.pronouns` | `we / you`, `we / they`, third-person, etc. |
-| `voice.tone` | Adjective list. Three to five. The drafter checks output against these. |
-| `voice.avoid` | Anti-list. Three to five. Banned at draft time. |
-| `terminology.preferred` | "Use X, not Y" pairs. The lint agent enforces. |
-| `terminology.banned` | Hard bans. Surface-specific overrides allowed in language profile. |
-| `pricing` (optional) | Source-of-truth for pricing claims. Drift = lint error. |
-| `phasing_dates` (optional) | For regulatory/compliance content where dates matter. Drift = lint error. |
-| `cta` | The article's closing call-to-action. URL + text. |
-| `language_profile` | Which file under `examples/language-profiles/` to load. |
-| `output.path` | Where draft files are written. |
-| `output.frontmatter_format` | `astro`, `next`, `jekyll`, or `plain`. |
-
-A real-world filled-in example lives at
-[`examples/fakturaflow-config.yaml`](examples/fakturaflow-config.yaml) —
-it's a Polish B2B SaaS aimed at accounting firms, with regulatory
-phasing and strict terminology rules.
+Have ideas? [Open an issue.](https://github.com/TrendTweekers/article-autopilot/issues)
 
 ---
 
-## Language profiles
+## 🤝 Contributing
 
-A language profile is a markdown file describing rules the lint agent
-should apply: punctuation conventions, plural forms, smart-quote pairs,
-diacritics, surface-specific quirks (the rule "no em-dashes in cold
-emails because they're an AI tell" lives in the profile, not the global
-config).
+PRs especially welcome for:
 
-Bundled:
+- **New language profiles** — see [`examples/language-profiles/README.md`](examples/language-profiles/README.md)
+- **New audience templates** — sample `site-config.yaml` files for D2C, dev tools, fintech, healthcare
+- **New frontmatter formats** — Hugo, Eleventy, Gatsby, etc.
+- **New surface-specific lint rules** — LinkedIn vs blog vs newsletter
 
-- **`english.md`** — default. Conservative punctuation, watches for
-  AI-slop tells, flexible by default.
-- **`polish.md`** — full ruleset for Polish B2B writing. Diacritics,
-  3-form plurals, smart-quote pairs (`„X"`), surface-conditional
-  em-dash policy.
-
-To add a new language: copy `english.md`, fill in your rules, save as
-`<language>.md`, reference it from your `site-config.yaml` via
-`language_profile: "<language>"`.
-
-PRs welcome. See `examples/language-profiles/README.md` for the
-contribution template.
+Open an issue first if you're proposing a behavior change to the pipeline shape (`brief → write → audit → lint`) — it's load-bearing and changes need discussion.
 
 ---
 
-## Before / after
+## 💛 Built with
 
-The point isn't "AI writes blog posts." Plenty of tools do that. The
-point is **AI writes blog posts that pass an editor.** A side-by-side
-on a real post:
+Built on **[Claude Code](https://claude.com/claude-code)** by Anthropic. Composes the upstream [`anthropic-skills`](https://github.com/anthropics/skills) pipeline — `content-brief` → `write-content` → `eeat-audit`.
 
-**Generic GPT prompt — "write me a blog post about X":**
+Originally extracted from the [FakturaFlow](https://fakturaflow.pl) blog pipeline (a Polish B2B SaaS for accounting firms). The Polish B2B constraints — regulatory phasing, terminology drift, surface-conditional em-dash policy, 3-form plurals — shaped this skill into something generalizable.
 
-> In today's fast-paced digital landscape, businesses are increasingly
-> turning to innovative solutions to streamline their workflows and
-> drive efficiency. One such solution is X, which leverages cutting-edge
-> technology to deliver unparalleled value...
-
-**Same keyword through `/article`, with a real `site-config.yaml`:**
-
-> If you've tried X and it didn't stick, the problem usually isn't the
-> tool. It's the gap between where the tool ends and where your team's
-> actual workflow starts. Here's what most teams miss in the first
-> month — and the four checks that fix it before it becomes a
-> retention problem.
-
-The difference isn't writing skill. It's that the second draft saw your
-audience description, knew what topics not to cover (in the brief), and
-got linted against a "no consultant-speak" rule before emission.
+If your output is good, credit the upstream skills. If it's bad, the glue is here — file an issue.
 
 ---
 
-## Limitations (read this)
-
-- **It can fabricate.** The drafter writes confident prose. If a
-  claim needs to be true (price, deadline, statute, statistic), audit
-  the draft yourself. The lint agent flags claims to verify; it does
-  not verify them.
-- **First-hand experience is fakeable.** The drafter can write
-  "I tested this with a 40-person team" without you ever having done so.
-  For YMYL-adjacent content, run the upstream `expert-interview` skill
-  first and feed the resulting transcript in.
-- **Voice drift over many articles.** After 50+ articles in one voice,
-  your `site-config.yaml` will need updates as your real voice evolves.
-- **It composes upstream skills.** If `content-brief` or `write-content`
-  ship a regression, your output regresses. Pin the upstream plugin
-  version if stability matters.
-- **English-default isn't English-best.** The Polish profile is more
-  battle-tested than the English one (it's where this came from).
-  PRs to harden English are welcome.
-
----
-
-## Credits
-
-Originally built as `fakturaflow-article` for [FakturaFlow](https://fakturaflow.pl)
-— a KSeF cockpit for Polish accounting firms. The Polish B2B
-constraints (regulatory phasing, terminology drift, surface-conditional
-em-dash policy, 3-form plurals) shaped the skill into something
-generalizable.
-
-Composes the [`anthropic-skills`](https://github.com/anthropics/skills)
-upstream pipeline:
-[`content-brief`](https://github.com/anthropics/skills) →
-[`write-content`](https://github.com/anthropics/skills) →
-[`eeat-audit`](https://github.com/anthropics/skills).
-
-If your output is good, credit the upstream skills. If it's bad, the
-glue is here — file an issue.
-
----
-
-## Contributing
-
-PRs welcome for:
-
-- **New language profiles** — see `examples/language-profiles/README.md`.
-- **New audience templates** — sample `site-config.yaml` files for
-  common verticals (D2C, dev tools, fintech, healthcare).
-- **Frontmatter formats** — new entries in the `output.frontmatter_format`
-  switch (Hugo, Eleventy, Gatsby, etc.).
-- **Lint rules** — surface-specific tells (LinkedIn vs blog vs
-  newsletter) that catch AI prose in your language.
-
-Open an issue first if you're proposing a behavior change to the
-pipeline itself — the shape (brief → write → audit → lint) is
-load-bearing and changes need discussion.
-
----
-
-## License
+## 📄 License
 
 MIT. See [LICENSE](LICENSE).
