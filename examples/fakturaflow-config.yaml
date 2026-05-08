@@ -1,0 +1,121 @@
+# Real-world example: FakturaFlow's site-config.yaml
+#
+# FakturaFlow is a Polish B2B SaaS — a KSeF cockpit for accounting
+# firms (biura rachunkowe). It's the original use case article-autopilot
+# was extracted from.
+#
+# This file is sanitized — public information only. No live API keys,
+# no internal pricing intelligence, no unpublished material.
+#
+# Notable choices below:
+#   - Polish-language content with the bundled `polish` profile
+#   - Hard terminology rules (UPO, FA(3), KSeF must use exact forms)
+#   - Phasing-date block because KSeF deadlines are liability-bearing
+#   - "regulatory_topic: true" forces the eeat-audit step into hard-gate
+#     mode — no auto-publish on unverifiable date or penalty claims
+#   - Editorial third-person register for blog content (audience is
+#     Polish accounting professionals, who read industry press)
+
+site:
+  name: "FakturaFlow"
+  url: "https://fakturaflow.pl"
+  positioning: "Niezależny kokpit KSeF dla polskich biur rachunkowych — wgrywaj faktury hurtowo z PDF/Excel/XML, waliduj schemat FA(3), wysyłaj do MF i pobieraj UPO z jednego panelu."
+
+audience:
+  primary: "Właściciele i menedżerowie biur rachunkowych obsługujących 10-200+ klientów w Polsce"
+  market: "Polska, B2B, biuro rachunkowe"
+  register: "editorial third-person"
+  reading_level: "professional"
+
+voice:
+  pronouns: "we / you (Twoje biuro)"
+  tone:
+    - "konkretny"
+    - "praktyczny"
+    - "bez przesadzonej formalności"
+    - "lekko opiniotwórczy"
+  avoid:
+    - "marketingowy żargon"
+    - "korporacyjna nowomowa"
+    - "obietnice bez pokrycia"
+    - "nadmierne anglicyzmy"
+
+terminology:
+  preferred:
+    - { use: "UPO (Urzędowe Poświadczenie Odbioru)", instead_of: "Potwierdzenie Odbioru" }
+    - { use: "Krajowy System e-Faktur", instead_of: "Krajowy System Faktur" }
+    - { use: "biuro rachunkowe", instead_of: "kancelaria księgowa" }
+    - { use: "biuro rachunkowe", instead_of: "firma księgowa" }
+    - { use: "klient biura", instead_of: "klient FakturaFlow" }
+    - { use: "token autoryzacyjny", instead_of: "klucz API" }
+    - { use: "FA(3)", instead_of: "FA3" }
+    - { use: "FA(3)", instead_of: "FA-3" }
+    - { use: "Twoje biuro", instead_of: "Państwa firma" }
+    - { use: "faktura ustrukturyzowana", instead_of: "e-faktura" }
+  banned:
+    - "rewelacyjny"
+    - "niesamowity"
+    - "absolutnie"
+    - "rewolucyjny"
+    - "przełomowy"
+    - "world-class"
+  preserve:
+    - "KSeF"
+    - "FA(3)"
+    - "UPO"
+    - "NIP"
+    - "MF"
+    - "API"
+    - "PDF"
+    - "Excel"
+    - "XML"
+
+pricing:
+  currency: "PLN"
+  format: "{amount} zł"   # number + space + lowercase "zł"
+  plans:
+    - { name: "Starter",      monthly: 199, annual: 1990 }
+    - { name: "Professional", monthly: 319, annual: 3190 }
+    - { name: "Enterprise",   monthly: 499, annual: 4990 }
+  annual_savings_pct: 17
+
+regulatory_topic: true
+phasing_dates:
+  - { date: "2026-02-01", applies_to: "Duzi podatnicy (wartość sprzedaży > 200 mln zł w poprzednim roku podatkowym)" }
+  - { date: "2026-04-01", applies_to: "Pozostali czynni podatnicy VAT" }
+  - { date: "2027-01-01", applies_to: "Zwolnieni z VAT (podmiotowo i przedmiotowo); faktury < 450 zł" }
+
+disclaimer_template: |
+  > Stan prawny na **DD MM RRRR**. Artykuł ma charakter informacyjny i
+  > nie stanowi porady podatkowej w rozumieniu ustawy o doradztwie
+  > podatkowym. Przed podjęciem decyzji opartych na opisanych tu
+  > procedurach skonsultuj się z doradcą podatkowym lub bezpośrednio z
+  > Ministerstwem Finansów.
+
+cta:
+  text: "Rozpocznij za darmo"
+  url: "/register"
+
+output:
+  path: "src/content/blog"
+  slug_style: "kebab-case"
+  frontmatter_format: "astro"
+  categories:
+    - "Poradnik"
+    - "KSeF"
+    - "Compliance"
+    - "Integracje"
+    - "Prawne"
+  author: "Zespół FakturaFlow"
+  author_bio: "Praktycy automatyzacji KSeF dla biur rachunkowych w Polsce."
+
+language: "pl"
+language_profile: "polish"
+
+existing_content:
+  read_paths:
+    - "src/content/blog/*.md"
+  cross_link_format: "/blog/{slug}"
+
+keyword_pool:
+  path: ".claude/seo/keywords-pl.md"

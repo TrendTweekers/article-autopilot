@@ -1,0 +1,211 @@
+# site-config.yaml — copy this to your project root and fill it in.
+#
+# Every field below constrains the article-autopilot output. Spend 30
+# minutes filling this in honestly. The output quality is downstream of
+# how truthful and specific these fields are.
+#
+# This file is read at the start of every /article invocation. Edits
+# take effect immediately — no reload needed.
+
+# -----------------------------------------------------------------------------
+# Site identity
+# -----------------------------------------------------------------------------
+site:
+  # Public name. Used in the article body when self-referencing.
+  name: "Acme Co"
+
+  # Public URL. Used to build CTA links and self-referential URLs.
+  url: "https://acme.example"
+
+  # One-sentence positioning. The drafter weaves this in ONCE per article,
+  # naturally — not as a sales paragraph. Keep it concrete: who it's for,
+  # what it does, why someone picks it over alternatives.
+  positioning: "Onboarding software for 20-200-person engineering teams"
+
+# -----------------------------------------------------------------------------
+# Audience
+# -----------------------------------------------------------------------------
+audience:
+  # Who the article is written for. Be specific — "B2B buyers" is too
+  # generic to constrain anything. "VP Engineering at Series B startups
+  # who just doubled headcount" is useful.
+  primary: "VP Engineering and Head of People at fast-growing startups"
+
+  # Geographic / linguistic market. Affects examples, currency, units,
+  # cultural references the drafter can lean on.
+  market: "North America, English-speaking"
+
+  # Reading register:
+  #   casual                  — first-person, contractions, informal
+  #   professional            — second-person, no slang, conversational
+  #   formal                  — third-person, no contractions, hedged
+  #   editorial third-person  — neutral analyst voice, reported speech
+  register: "professional"
+
+  # Reading level estimate. Drafter targets this. Use values:
+  #   broad         (8th grade)
+  #   professional  (general adult business reader)
+  #   technical     (specialist reader, comfortable with jargon)
+  reading_level: "professional"
+
+# -----------------------------------------------------------------------------
+# Voice
+# -----------------------------------------------------------------------------
+voice:
+  # Pronouns the article uses. Pick one pair.
+  #   "we / you"     — most B2B blogs (we = brand, you = reader)
+  #   "we / they"    — analyst-style (we = brand, they = the market)
+  #   "third-person" — pure editorial neutral
+  pronouns: "we / you"
+
+  # Three to five adjectives. The drafter checks output against these
+  # before emitting. Be specific — "good" doesn't help. "Direct" does.
+  tone:
+    - "confident"
+    - "specific"
+    - "low-pretension"
+    - "lightly opinionated"
+
+  # Three to five anti-adjectives or anti-patterns. The drafter avoids
+  # these at draft time and the lint agent flags violations.
+  avoid:
+    - "jargon-stacking"
+    - "hype adjectives"
+    - "consultant-speak"
+    - "thought-leader-isms"
+
+# -----------------------------------------------------------------------------
+# Terminology
+# -----------------------------------------------------------------------------
+terminology:
+  # "Use X instead of Y" pairs. Lint agent enforces.
+  preferred:
+    - { use: "onboarding plan",     instead_of: "onboarding journey" }
+    - { use: "new hire",            instead_of: "new joiner" }
+    - { use: "first 90 days",       instead_of: "ramp period" }
+
+  # Hard bans. Lint agent flags as must-fix. The drafter avoids at
+  # draft time. If a banned term is genuinely required by the topic,
+  # the skill stops and asks before continuing.
+  banned:
+    - "synergy"
+    - "leverage"        # as a verb
+    - "best-in-class"
+    - "industry-leading"
+    - "world-class"
+
+  # Terms to leave alone — never localize, never replace. Useful for
+  # acronyms, brand names, technical terms borrowed from English in
+  # non-English content.
+  preserve:
+    - "API"
+    - "SaaS"
+    - "OKR"
+
+# -----------------------------------------------------------------------------
+# Pricing (optional)
+# -----------------------------------------------------------------------------
+# Uncomment and fill in if your articles ever mention pricing. The lint
+# agent enforces these as the source of truth — any drift in copy is a
+# must-fix.
+#
+# pricing:
+#   currency: "USD"
+#   plans:
+#     - { name: "Starter",      monthly: 49,  annual: 490 }
+#     - { name: "Professional", monthly: 99,  annual: 990 }
+#     - { name: "Enterprise",   monthly: 199, annual: 1990 }
+#   annual_savings_pct: 17
+
+# -----------------------------------------------------------------------------
+# Phasing dates (optional, for regulatory/compliance content)
+# -----------------------------------------------------------------------------
+# Uncomment for content where date claims are liability-bearing
+# (regulatory rollouts, statutory deadlines, compliance milestones).
+# When set, the drafter quotes the FULL sequence whenever it touches a
+# date claim — never paraphrases to a single date.
+#
+# regulatory_topic: true
+# phasing_dates:
+#   - { date: "2026-02-01", applies_to: "Phase 1: large filers (revenue > $50M)" }
+#   - { date: "2026-04-01", applies_to: "Phase 2: all VAT payers" }
+#   - { date: "2027-01-01", applies_to: "Phase 3: micro-businesses, VAT-exempt" }
+#
+# disclaimer_template: |
+#   Current as of <MONTH YEAR>. Informational only — not legal or tax
+#   advice. Consult a qualified advisor before acting on the procedures
+#   described.
+
+# -----------------------------------------------------------------------------
+# Closing CTA
+# -----------------------------------------------------------------------------
+cta:
+  # Where the article ends — one sentence, one link.
+  text: "Start your free trial"
+  url: "/signup"
+
+# -----------------------------------------------------------------------------
+# Output
+# -----------------------------------------------------------------------------
+output:
+  # Where draft files are written. Path is relative to project root.
+  path: "src/content/blog"
+
+  # Slug derivation:
+  #   kebab-case   — "engineering-onboarding-checklist"
+  #   snake_case   — "engineering_onboarding_checklist"
+  #   slash-paths  — "engineering/onboarding-checklist" (for nested
+  #                  category folders, slug generated as kebab leaf)
+  slug_style: "kebab-case"
+
+  # Frontmatter shape. Supported:
+  #   astro    — slug, title, description, date, dateModified, readMin,
+  #              category, author, authorBio
+  #   next     — same as astro (works with most Next/MDX setups)
+  #   jekyll   — layout, title, date, categories, author, description
+  #   plain    — title, date only
+  frontmatter_format: "astro"
+
+  # Categories the drafter can pick from. Pick the closest match per
+  # article based on the keyword and intent.
+  categories:
+    - "Guide"
+    - "Best practices"
+    - "Comparison"
+    - "Industry"
+
+  # Author identity for frontmatter.
+  author: "Acme Team"
+  author_bio: "Practitioners building onboarding tooling for fast-growing teams."
+
+# -----------------------------------------------------------------------------
+# Language
+# -----------------------------------------------------------------------------
+# Which language the article is written in.
+language: "en"
+
+# Which language profile the lint agent uses. Profile files live in
+# .claude/skills/article/language-profiles/<name>.md (or in this repo's
+# examples/language-profiles/<name>.md when developing). Bundled:
+#   english   — default. Conservative punctuation, watches for AI-slop.
+#   polish    — full ruleset for Polish B2B writing.
+# Add your own by copying english.md and tuning.
+language_profile: "english"
+
+# -----------------------------------------------------------------------------
+# Optional: existing content awareness
+# -----------------------------------------------------------------------------
+# When set, the drafter reads existing articles before writing a new
+# one and proposes cross-links. Avoids topic duplication.
+existing_content:
+  read_paths:
+    - "src/content/blog/*.md"
+  cross_link_format: "/blog/{slug}"   # how URLs are built from slugs
+
+# -----------------------------------------------------------------------------
+# Optional: keyword pool
+# -----------------------------------------------------------------------------
+# When the operator runs /article without a keyword, the skill reads
+# this file and picks the highest-priority unwritten keyword.
+keyword_pool:
+  path: ".claude/seo/keywords.md"   # or wherever yours lives
